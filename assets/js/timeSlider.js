@@ -16,9 +16,9 @@ function TimeSlider(range, min, max, step, values, timeId, sliderId, callback) {
     return this;
 }
 
-TimeSlider.slider = () => {
+TimeSlider.prototype.slider = function() {
     var parent = this;
-    $("#"+sliderId).slider({
+    $(this.sliderId).slider({
         range: this.range,
         min: this.min,
         max: this.max,
@@ -47,11 +47,9 @@ TimeSlider.slider = () => {
                 hours1 = 12;
                 minutes1 = minutes1;
             }
-
-
-
+            
             $(parent.timeId).html(hours1 + ':' + minutes1);
-            parent.callback(hours1+':'+minutes1);
+            parent.callback(hours1, minutes1);
         }
     });
 }

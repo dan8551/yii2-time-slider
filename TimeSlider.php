@@ -56,6 +56,9 @@ class TimeSlider extends Widget
     /**
      * 
      * @var string javascript callback after the slider has moved
+     *    `function(hours, minutes)`, where:
+     * - `hours`: int, is the selected hours
+     * - `minutes`: int, is the selected minutes
      */
     public $callback;
     
@@ -65,6 +68,9 @@ class TimeSlider extends Widget
     public function run()
     {
 	parent::run();
+        $this->range = $this->range ? 'true' : 'false'; //convert PHP boolean to string
+        $this->timeId = '#'.$this->timeId;
+        $this->sliderId = '#'.$this->sliderId;
 	$this->registerAssets();
         return true;
     }
@@ -78,7 +84,7 @@ class TimeSlider extends Widget
         TimeSliderAsset::register($view);
         $uuid = uniqid();
         $js = <<<JS
-            var ts = new TimeSlider({$this->range}, {$this->min}, {$this->max}, {$this->step}, {$this->values}, {$this->timeId}, {$this->sliderId}, {$this->callback});
+            var ts = new TimeSlider({$this->range}, {$this->min}, {$this->max}, {$this->step}, {$this->values}, '{$this->timeId}', '{$this->sliderId}', {$this->callback});
             ts.slider();
         JS;
         $view->registerJs($js,View::POS_READY);
